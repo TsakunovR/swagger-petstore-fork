@@ -3,11 +3,10 @@ servers:
   - url: /v3
 info:
   description: |-
-    Это пример API зооомагазина с использованием спецификации OpenAPI 3.0.
+    Учебный API зоомагазина от [RVSchool](https://rvschool.ru) — школы автоматизации тестирования. Используйте этот сервис для практики работы с REST API, написания автотестов и изучения спецификации OpenAPI 3.0.
 
-    Немного полезных ссылок:
-    - [Обучение автоматизации](https://rvschool.ru)
-    - [Telegram канал по автоматизации](https://t.me/rvtsakunov)
+    - [RVSchool — обучение автоматизации](https://rvschool.ru)
+    - [Telegram канал](https://t.me/rvtsakunov)
   version: 1.0.20-SNAPSHOT
   title: Зоомагазин RVSchool - OpenAPI 3.0
 tags:
