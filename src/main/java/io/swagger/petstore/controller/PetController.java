@@ -19,6 +19,7 @@ package io.swagger.petstore.controller;
 import io.swagger.oas.inflector.models.RequestContext;
 import io.swagger.oas.inflector.models.ResponseContext;
 import io.swagger.petstore.data.PetData;
+import io.swagger.petstore.model.ApiResponse;
 import io.swagger.petstore.model.Category;
 import io.swagger.petstore.model.Pet;
 import io.swagger.petstore.model.Tag;
@@ -27,12 +28,14 @@ import io.swagger.petstore.utils.Util;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.io.File;
+import java.util.Arrays;
 import java.util.List;
 
 @javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaInflectorServerCodegen", date = "2017-04-08T15:48:56.501Z")
 public class PetController {
 
     private static PetData petData = new PetData();
+    private static final List<String> VALID_PET_STATUSES = Arrays.asList("available", "pending", "sold");
 
     public ResponseContext findPetsByStatus(final RequestContext request, final String status) {
         if (status == null) {
@@ -81,6 +84,12 @@ public class PetController {
             return new ResponseContext()
                     .status(Response.Status.BAD_REQUEST)
                     .entity("No Name provided. Try again?");
+        }
+
+        if (status != null && !VALID_PET_STATUSES.contains(status)) {
+            return new ResponseContext()
+                    .status(Response.Status.BAD_REQUEST)
+                    .entity("Invalid pet status. Valid values: " + VALID_PET_STATUSES);
         }
 
         final MediaType outputType = Util.getMediaType(request);
@@ -143,15 +152,9 @@ public class PetController {
         petData.deletePetById(existingPet.getId());
         petData.addPet(existingPet);
 
-        final Pet pet = petData.getPetById(petId);
-
-        if (null != pet) {
-            return new ResponseContext()
-                    .contentType(Util.getMediaType(request))
-                    .entity(pet);
-        } else {
-            return new ResponseContext().status(Response.Status.NOT_MODIFIED).entity("Pet couldn't be updated.");
-        }
+        return new ResponseContext()
+                .contentType(Util.getMediaType(request))
+                .entity(new ApiResponse(ApiResponse.OK, "File uploaded: " + file.getName()));
     }
 
     public ResponseContext addPet(final RequestContext request, final Pet pet) {
@@ -159,6 +162,12 @@ public class PetController {
             return new ResponseContext()
                     .status(Response.Status.BAD_REQUEST)
                     .entity("No Pet provided. Try again?");
+        }
+
+        if (pet.getStatus() != null && !VALID_PET_STATUSES.contains(pet.getStatus())) {
+            return new ResponseContext()
+                    .status(Response.Status.BAD_REQUEST)
+                    .entity("Invalid pet status. Valid values: " + VALID_PET_STATUSES);
         }
 
         petData.addPet(pet);
@@ -179,6 +188,12 @@ public class PetController {
             return new ResponseContext()
                     .status(Response.Status.BAD_REQUEST)
                     .entity("No Pet provided. Try again?");
+        }
+
+        if (pet.getStatus() != null && !VALID_PET_STATUSES.contains(pet.getStatus())) {
+            return new ResponseContext()
+                    .status(Response.Status.BAD_REQUEST)
+                    .entity("Invalid pet status. Valid values: " + VALID_PET_STATUSES);
         }
 
         final Pet existingPet = petData.getPetById(pet.getId());

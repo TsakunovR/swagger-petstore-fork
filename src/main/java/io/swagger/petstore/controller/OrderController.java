@@ -24,12 +24,15 @@ import io.swagger.petstore.utils.Util;
 import org.joda.time.DateTime;
 
 import javax.ws.rs.core.Response;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 
 @javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaInflectorServerCodegen", date = "2017-04-08T15:48:56.501Z")
 public class OrderController {
 
     private static OrderData orderData = new OrderData();
+    private static final List<String> VALID_ORDER_STATUSES = Arrays.asList("placed", "approved", "delivered");
 
     public ResponseContext getInventory(final RequestContext request) {
         return new ResponseContext()
@@ -62,6 +65,12 @@ public class OrderController {
                     .entity("No Order provided. Try again?");
         }
 
+        if (order.getStatus() == null || !VALID_ORDER_STATUSES.contains(order.getStatus())) {
+            return new ResponseContext()
+                    .status(Response.Status.BAD_REQUEST)
+                    .entity("Invalid order status. Valid values: " + VALID_ORDER_STATUSES);
+        }
+
         orderData.addOrder(order);
         return new ResponseContext()
                 .contentType(Util.getMediaType(request))
@@ -81,16 +90,15 @@ public class OrderController {
                     .entity("No orderId provided. Try again?");
         }
 
+        final Order existing = orderData.getOrderById(orderId);
+        if (existing == null) {
+            return new ResponseContext().status(Response.Status.NOT_FOUND).entity("Order not found");
+        }
+
         orderData.deleteOrderById(orderId);
 
-        final Order order = orderData.getOrderById(orderId);
-
-        if (null == order) {
-            return new ResponseContext()
-                    .contentType(Util.getMediaType(request))
-                    .entity(order);
-        } else {
-            return new ResponseContext().status(Response.Status.NOT_MODIFIED).entity("Order couldn't be deleted.");
-        }
+        return new ResponseContext()
+                .contentType(Util.getMediaType(request))
+                .entity(existing);
     }
 }

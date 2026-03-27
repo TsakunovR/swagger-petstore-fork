@@ -101,6 +101,12 @@ public class UserController {
     }
 
     public ResponseContext loginUser(final RequestContext request, final String username, final String password) {
+        if (username == null || username.isEmpty() || password == null || password.isEmpty()) {
+            return new ResponseContext()
+                    .status(Response.Status.BAD_REQUEST)
+                    .entity("Invalid username/password supplied");
+        }
+
         Date date = new Date(System.currentTimeMillis() + 3600000);
         return new ResponseContext()
                 .contentType(Util.getMediaType(request))
@@ -123,17 +129,16 @@ public class UserController {
                     .entity("No username provided. Try again?");
         }
 
+        final User existing = userData.findUserByName(username);
+        if (existing == null) {
+            return new ResponseContext().status(Response.Status.NOT_FOUND).entity("User not found");
+        }
+
         userData.deleteUser(username);
 
-        final User user = userData.findUserByName(username);
-
-        if (null == user) {
-            return new ResponseContext()
-                    .contentType(Util.getMediaType(request))
-                    .entity(user);
-        } else {
-            return new ResponseContext().status(Response.Status.NOT_MODIFIED).entity("User couldn't be deleted.");
-        }
+        return new ResponseContext()
+                .contentType(Util.getMediaType(request))
+                .entity(existing);
     }
 
     public ResponseContext updateUser(final RequestContext request, final String username, final User user) {

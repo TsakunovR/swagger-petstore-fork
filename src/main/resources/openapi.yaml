@@ -41,7 +41,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Pet'
-        '405':
+        '400':
           description: Invalid input
       security:
         - petstore_auth:
@@ -343,7 +343,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Order'
-        '405':
+        '400':
           description: Invalid input
       requestBody:
         content:
@@ -362,9 +362,7 @@ paths:
         - store
       summary: Find purchase order by ID
       x-swagger-router-controller: OrderController
-      description: >-
-        For valid response try integer IDs with value <= 5 or > 10. Other values
-        will generate exceptions.
+      description: Returns an order by its ID
       operationId: getOrderById
       parameters:
         - name: orderId
@@ -393,9 +391,7 @@ paths:
         - store
       summary: Delete purchase order by ID
       x-swagger-router-controller: OrderController
-      description: >-
-        For valid response try integer IDs with value < 1000. Anything above
-        1000 or nonintegers will generate API errors
+      description: Deletes an order by its ID
       operationId: deleteOrder
       parameters:
         - name: orderId
@@ -453,10 +449,14 @@ paths:
           content:
             application/xml:
               schema:
-                $ref: '#/components/schemas/User'
+                type: array
+                items:
+                  $ref: '#/components/schemas/User'
             application/json:
               schema:
-                $ref: '#/components/schemas/User'
+                type: array
+                items:
+                  $ref: '#/components/schemas/User'
         default:
           description: successful operation
       requestBody:
