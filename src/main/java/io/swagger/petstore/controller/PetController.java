@@ -189,6 +189,18 @@ public class PetController {
                     .entity("No Pet provided. Try again?");
         }
 
+        final String status = pet.getStatus();
+        if (status != null && !"available".equals(status)
+                && !"pending".equals(status) && !"sold".equals(status)) {
+            final java.util.Map<String, Object> error = new java.util.LinkedHashMap<>();
+            error.put("code", 404);
+            error.put("message", "Invalid pet status");
+            return new ResponseContext()
+                    .status(Response.Status.NOT_FOUND)
+                    .contentType(MediaType.APPLICATION_JSON_TYPE)
+                    .entity(error);
+        }
+
         petData.addPet(pet);
 
         return new ResponseContext()

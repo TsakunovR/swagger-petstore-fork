@@ -1,0 +1,195 @@
+{
+  "base": "https://petstore.swagger.rv-school.ru/api/v3",
+  "checks": [
+    {
+      "name": "ID 8522892706851 initially absent",
+      "passed": true
+    },
+    {
+      "name": "ID 8522892706852 initially absent",
+      "passed": true
+    },
+    {
+      "name": "ID 8522892706853 initially absent",
+      "passed": true
+    },
+    {
+      "name": "ID 8522892706854 initially absent",
+      "passed": true
+    },
+    {
+      "name": "ID 8522892706855 initially absent",
+      "passed": true
+    },
+    {
+      "name": "ID 8522892706856 initially absent",
+      "passed": true
+    },
+    {
+      "name": "ID 8522892706857 initially absent",
+      "passed": true
+    },
+    {
+      "name": "ID 8522892706858 initially absent",
+      "passed": true
+    },
+    {
+      "name": "ID 8522892706859 initially absent",
+      "passed": true
+    },
+    {
+      "name": "POST 8522892706851: HTTP 200",
+      "passed": true
+    },
+    {
+      "name": "available: GET matches created pet",
+      "passed": true
+    },
+    {
+      "name": "POST 8522892706852: HTTP 200",
+      "passed": true
+    },
+    {
+      "name": "pending: GET matches created pet",
+      "passed": true
+    },
+    {
+      "name": "POST 8522892706853: HTTP 200",
+      "passed": true
+    },
+    {
+      "name": "sold: GET matches created pet",
+      "passed": true
+    },
+    {
+      "name": "POST 8522892706854: HTTP 404",
+      "passed": true
+    },
+    {
+      "name": "POST 8522892706854: exact error body",
+      "passed": true
+    },
+    {
+      "name": "unknown: GET after POST",
+      "passed": true
+    },
+    {
+      "name": "POST 8522892706855: HTTP 404",
+      "passed": true
+    },
+    {
+      "name": "POST 8522892706855: exact error body",
+      "passed": true
+    },
+    {
+      "name": "arbitrary-invalid-20261123: GET after POST",
+      "passed": true
+    },
+    {
+      "name": "POST 8522892706856: HTTP 200",
+      "passed": true
+    },
+    {
+      "name": "POST 8522892706856: HTTP 404",
+      "passed": true
+    },
+    {
+      "name": "POST 8522892706856: exact error body",
+      "passed": true
+    },
+    {
+      "name": "unknown: existing record check",
+      "passed": true
+    },
+    {
+      "name": "POST 8522892706856: HTTP 404",
+      "passed": true
+    },
+    {
+      "name": "POST 8522892706856: exact error body",
+      "passed": true
+    },
+    {
+      "name": "arbitrary-invalid-20261123: existing record check",
+      "passed": true
+    },
+    {
+      "name": "POST 8522892706857: HTTP 200",
+      "passed": true
+    },
+    {
+      "name": "missing status: GET succeeds",
+      "passed": true
+    },
+    {
+      "name": "POST 8522892706858: HTTP 200",
+      "passed": true
+    },
+    {
+      "name": "null status: GET succeeds",
+      "passed": true
+    },
+    {
+      "name": "PUT unknown retains HTTP 200",
+      "passed": true
+    },
+    {
+      "name": "PUT unknown persists as before",
+      "passed": true
+    },
+    {
+      "name": "GET findByStatus remains available",
+      "passed": true
+    },
+    {
+      "name": "GET findByTags remains available",
+      "passed": true
+    },
+    {
+      "name": "GET store inventory remains available",
+      "passed": true
+    },
+    {
+      "name": "live OpenAPI documents 404",
+      "passed": true
+    }
+  ],
+  "cleanup": [
+    {
+      "id": 8522892706851,
+      "absent": true
+    },
+    {
+      "id": 8522892706852,
+      "absent": true
+    },
+    {
+      "id": 8522892706853,
+      "absent": true
+    },
+    {
+      "id": 8522892706854,
+      "absent": true
+    },
+    {
+      "id": 8522892706855,
+      "absent": true
+    },
+    {
+      "id": 8522892706856,
+      "absent": true
+    },
+    {
+      "id": 8522892706857,
+      "absent": true
+    },
+    {
+      "id": 8522892706858,
+      "absent": true
+    },
+    {
+      "id": 8522892706859,
+      "absent": true
+    }
+  ]
+}

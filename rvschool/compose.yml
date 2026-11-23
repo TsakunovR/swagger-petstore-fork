@@ -1,0 +1,62 @@
+name: rvschool-group1
+x-lab-defaults: &lab-defaults
+  restart: unless-stopped
+  init: true
+  pids_limit: 256
+  logging:
+    driver: json-file
+    options:
+      max-file: "3"
+      max-size: "10m"
+services:
+  petstore:
+    <<: *lab-defaults
+    image: swaggerapi/petstore@sha256:edb948355af1675a04f6789ba3ea878134e5f8a03eaa5405417721cd77df7efc
+    cpus: 0.75
+    mem_limit: 768m
+    networks: [petstore]
+    ports: ["127.0.0.1:18081:8080"]
+    environment:
+      JAVA_TOOL_OPTIONS: "-Xms64m -Xmx384m"
+      SWAGGER_BASE_PATH: /v2
+      SWAGGER_HOST: https://petstore.swagger.rv-school.ru
+      SWAGGER_URL: https://petstore.swagger.rv-school.ru
+  petstore-v3:
+    <<: *lab-defaults
+    image: rvschool/petstore3:status-validation-20261123
+    build:
+      context: ..
+      dockerfile: rvschool/Dockerfile
+    cpus: 0.75
+    mem_limit: 768m
+    networks: [petstore]
+    ports: ["127.0.0.1:18083:8080"]
+    environment:
+      JAVA_TOOL_OPTIONS: "-Xms64m -Xmx384m"
+    volumes:
+      - type: bind
+        source: ../src/main/resources/openapi.yaml
+        target: /swagger-petstore/openapi.yaml
+        read_only: true
+        bind:
+          create_host_path: false
+  booker:
+    <<: *lab-defaults
+    image: rvschool/restful-booker:20261107
+    cpus: 0.5
+    mem_limit: 256m
+    networks: [booker]
+    ports: ["127.0.0.1:18301:3001"]
+    environment:
+      NODE_ENV: production
+      NODE_OPTIONS: --max-old-space-size=160
+      PORT: "3001"
+    healthcheck:
+      test: ["CMD", "node", "-e", "require('http').get('http://localhost:3001/ping',r=>process.exit(r.statusCode===201?0:1)).on('error',()=>process.exit(1))"]
+      timeout: 5s
+      interval: 30s
+      retries: 3
+      start_period: 20s
+networks:
+  petstore:
+  booker:
